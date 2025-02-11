@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Under maintenance</title>
+    <style>
+      body {
+        background-color: rgb(255 100 0);
+        font-size: 4em;
+      }
+      p {
+        margin: 0px;
+      }
+      a {
+        color: rgb(200 100 0);
+      }
+      a:hover {
+        color: rgb(0 100 200);
+        cursor: pointer;
+      }
+      .msg-window {
+        margin-left: 15vw;
+        margin-top: 15vh;
+        width: 70vw;
+        height: 70vh;
+        text-align: center;
+        vertical-align: middle;
+      }
+      .msg-window > ul {
+        list-style: none;
+      }
+      .msg-txt {
+        max-width: 70vw;
+        max-height: 20vh;
+      }
+      .msg-img {
+        max-width: 70vw;
+        max-height: 50vh;
+      }
+      .hide {
+        opacity: 0.1;
+      }
+    </style>
+    <script type="text/javascript">
+      let msg_txt = null;
+      let msg_anime_phase = 0;
+      function login() {
+        document.getElementById("login-form").submit();
+      }
+      function msg_anime() {
+        if (msg_txt != null) {
+          msg_txt.innerHTML = "Under maintenance";
+          for (let a = 0; a < msg_anime_phase; a++) {
+            msg_txt.innerHTML += ".";
+          }
+          if (msg_anime_phase == 7) {
+            msg_anime_phase = 0;
+          } else {
+            msg_anime_phase += 1;
+          }
+        }
+      }
+      window.onload = function() {
+        msg_txt = document.getElementById("msg-txt");
+        msg_anime();
+        setInterval(msg_anime, 1000);
+        setTimeout(() => {location.href = '/';}, 7000);
+      }
+    </script>
+  </head>
+  <body>
+    <div class="msg-window">
+      <ul>
+        <li><p class="msg-txt" id="msg-txt"></li>
+        <li><img class="msg-img" src="https://sozai-good.com/download?id=2250&type=7&subnumber=0&extention=gif"></li>
+        <li><a class="hide" onclick="login()">Login</a></li>
+      </ul>
+    </div>
+    <form id="login-form" method="POST" action="/">
+      <input type="hidden" name="login">
+    </form>
+  </body>
+</html>
