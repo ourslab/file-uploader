@@ -1,0 +1,435 @@
+body {
+  margin: 0px;
+  font-weight: bold;
+  overflow: hidden;
+}
+a {
+  color: #aa99bb;
+}
+a:hover {
+  color: #00ffff;
+  cursor: pointer;
+}
+p {
+  margin: 5px 5em;
+}
+.msg {
+  margin: 0px;
+  padding: 0px 20px;
+  background-color: rgb(0 255 0 / 0.7);
+}
+.warn {
+  color: rgb(255 0 0);
+  margin: 0px;
+  padding: 0px 20px;
+  background-color: rgb(0 0 0 / 0.8);
+}
+.notice {
+  color: rgb(0 0 255);
+  margin: 0px;
+  padding: 0px 20px;
+  background-color: rgb(255 255 0 / 0.8);
+}
+.hide {
+  opacity: 0.05;
+}
+.logo > a > img {
+  width: 200px;
+  height: 40px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #333388;
+}
+.tags-list > ul {
+  list-style: none;
+  padding-left: 10px;
+}
+.tags-list > ul > li {
+  font-weight: bold;
+  text-overflow: ellipsis;
+}
+.tags-list {
+  color: white;
+}
+.tag-icon {
+  height: 1em;
+}
+.files-list-page-jump {
+  color: rgb(200 50 200);
+  text-shadow: 1px  1px 1px rgb(150 0 0),
+              -1px  1px 1px rgb(150 0 0),
+               1px -1px 1px rgb(150 0 0),
+              -1px -1px 1px rgb(150 0 0),
+               1px  0px 1px rgb(150 0 0),
+               0px  1px 1px rgb(150 0 0),
+              -1px  0px 1px rgb(150 0 0),
+               0px -1px 1px rgb(150 0 0);
+}
+.files-list-page-jump:hover {
+  color: rgb(255 150 255);
+}
+.files-list-id {
+  width: 3em;
+  padding-right: 10px;
+  overflow: hidden;
+}
+.files-list-link {
+  width: 18em;
+  padding: 0px 20px;
+  max-height: 1.5em;
+  overflow: hidden;
+  border-left: 2px dashed black;
+}
+.files-list-link > a {
+  color: rgb(150 255 200);
+  text-shadow: 1px  1px 1px rgb(0 100 255), 
+              -1px  1px 1px rgb(0 100 255),
+               1px -1px 1px rgb(0 100 255),
+              -1px -1px 1px rgb(0 100 255),
+               1px  0px 1px rgb(0 100 255),
+               0px  1px 1px rgb(0 100 255),
+              -1px  0px 1px rgb(0 100 255),
+               0px -1px 1px rgb(0 100 255);
+  text-decoration: none;
+  line-break: anywhere;
+  cursor: pointer;
+}
+.files-list-link > a:hover {
+  color: rgb(0 0 0);
+}
+.files-list-command {
+  width: 6em;
+  border-left: 2px dashed black;
+}
+.files-list-command > a {
+  color: rgb(255 200 255);
+  text-shadow: 1px  1px 1px rgb(0 0 100),
+              -1px  1px 1px rgb(0 0 100),
+               1px -1px 1px rgb(0 0 100),
+              -1px -1px 1px rgb(0 0 100),
+               1px  0px 1px rgb(0 0 100),
+               0px  1px 1px rgb(0 0 100),
+              -1px  0px 1px rgb(0 0 100),
+               0px -1px 1px rgb(0 0 100);
+  text-decoration: none;
+  cursor: pointer;
+}
+.files-list-command > a:hover {
+  color: rgb(255 0 255);
+}
+.files-list-remove {
+  width: 6em;
+  border-left: 2px dashed black;
+}
+.files-list-remove > a {
+  color: rgb(255 0 0);
+  text-shadow: 1px  1px 1px rgb(0 0 0),
+              -1px  1px 1px rgb(0 0 0),
+               1px -1px 1px rgb(0 0 0),
+              -1px -1px 1px rgb(0 0 0),
+               1px  0px 1px rgb(0 0 0),
+               0px  1px 1px rgb(0 0 0),
+              -1px  0px 1px rgb(0 0 0),
+               0px -1px 1px rgb(0 0 0);
+  text-decoration: none;
+  cursor: pointer;
+}
+.files-list-remove > a:hover {
+  color: rgb(0 0 0);
+}
+.birthday-list {
+  color: rgb(150 255 200);
+  text-shadow: 1px  1px 1px rgb(0 100 255),
+              -1px  1px 1px rgb(0 100 255),
+               1px -1px 1px rgb(0 100 255),
+              -1px -1px 1px rgb(0 100 255),
+               1px  0px 1px rgb(0 100 255),
+               0px  1px 1px rgb(0 100 255),
+              -1px  0px 1px rgb(0 100 255),
+               0px -1px 1px rgb(0 100 255);
+}
+.birthday-list-id {
+  width: 3em;
+}
+.birthday-list-name {
+  width: 15em;
+}
+.birthday-list-year {
+  width: 5em;
+}
+.birthday-list-month {
+  width: 2em;
+}
+.birthday-list-day {
+  width: 2em;
+}
+.birthday-list-command {
+  width: 5em;
+}
+.birthday-list-command > a {
+  color: rgb(255 200 255);
+  text-shadow: 1px  1px 1px rgb(0 0 100),
+              -1px  1px 1px rgb(0 0 100),
+               1px -1px 1px rgb(0 0 100),
+              -1px -1px 1px rgb(0 0 100),
+               1px  0px 1px rgb(0 0 100),
+               0px  1px 1px rgb(0 0 100),
+              -1px  0px 1px rgb(0 0 100),
+               0px -1px 1px rgb(0 0 100);
+  text-decoration: none;
+  cursor: pointer;
+}
+.birthday-list-command > a:hover {
+  color: rgb(255 0 255);
+}
+.birthday-list-remove {
+  width: 6em;
+  border-left: 2px dashed black;
+}
+.birthday-list-remove > a {
+  color: rgb(255 0 0);
+  text-shadow: 1px  1px 1px rgb(0 0 0),
+              -1px  1px 1px rgb(0 0 0),
+               1px -1px 1px rgb(0 0 0),
+              -1px -1px 1px rgb(0 0 0),
+               1px  0px 1px rgb(0 0 0),
+               0px  1px 1px rgb(0 0 0),
+              -1px  0px 1px rgb(0 0 0),
+               0px -1px 1px rgb(0 0 0);
+  text-decoration: none;
+  cursor: pointer;
+}
+.birthday-list-remove > a:hover {
+  color: rgb(0 0 0);
+}
+.backgrounds-list {
+  color: rgb(150 255 200);
+  text-shadow: 1px  1px 1px rgb(0 100 255),
+              -1px  1px 1px rgb(0 100 255),
+               1px -1px 1px rgb(0 100 255),
+              -1px -1px 1px rgb(0 100 255),
+               1px  0px 1px rgb(0 100 255),
+               0px  1px 1px rgb(0 100 255),
+              -1px  0px 1px rgb(0 100 255),
+               0px -1px 1px rgb(0 100 255);
+}
+.backgrounds-list-user {
+  width: 10em;
+}
+.backgrounds-list-url {
+  width: 20em;
+  overflow: hidden;
+  text-align: end;
+  white-space: nowrap;
+}
+.backgrounds-list-url > a {
+  width: 20em;
+  color: rgb(150 255 200);
+  text-shadow: 1px  1px 1px rgb(0 0 0),
+              -1px  1px 1px rgb(0 0 0),
+               1px -1px 1px rgb(0 0 0),
+              -1px -1px 1px rgb(0 0 0),
+               1px  0px 1px rgb(0 0 0),
+               0px  1px 1px rgb(0 0 0),
+              -1px  0px 1px rgb(0 0 0),
+               0px -1px 1px rgb(0 0 0);
+  text-decoration: none;
+  cursor: pointer;
+  line-break: normal;
+}
+.backgrounds-list-url > a:hover {
+  color: rgb(255 0 255);
+  cursor: pointer;
+}
+.backgrounds-list-note {
+  width: 10em;
+}
+.backgrounds-list-command {
+  width: 5em;
+}
+.backgrounds-list-command > a {
+  color: rgb(255 0 0);
+  text-shadow: 1px  1px 1px rgb(0 0 0),
+              -1px  1px 1px rgb(0 0 0),
+               1px -1px 1px rgb(0 0 0),
+              -1px -1px 1px rgb(0 0 0),
+               1px  0px 1px rgb(0 0 0),
+               0px  1px 1px rgb(0 0 0),
+              -1px  0px 1px rgb(0 0 0),
+               0px -1px 1px rgb(0 0 0);
+  text-decoration: none;
+  cursor: pointer;
+}
+.backgrounds-list-command > a:hover {
+  color: rgb(255 0 255);
+  cursor: pointer;
+}
+.overlap {
+  position: relative;
+} 
+.contents {
+  opacity: 0;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+}
+.highlighting {
+  color: orange;
+}
+#top-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-left: 210px;
+}
+#top-bar > ul {
+  margin: 0px;
+  padding: 0px;
+  width: 100vw;
+  height: 50px;
+  display: flex;
+  list-style: none;
+  background-color: #aaaabb;
+}
+@media (max-width: 970px) {
+  #side-bar:not(:hover) ~ #top-bar {
+    margin-left: 0px;
+  }
+  #side-bar:not(:hover) ~ #top-bar > ul {
+    width: 100vw;
+  }
+}
+#top-bar > ul > li img { 
+  height: 40px;
+  width: 110px;
+  padding: 5px;
+  cursor: pointer;
+}
+#side-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 210px;
+  min-height: 100vh;
+  background-color: #112233;
+}
+@media (max-width: 970px) {
+  #side-bar:not(:hover) {
+    width: 1em;
+  }
+  #side-bar:not(:hover) > div {
+    display: none;
+  }
+}
+#body {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  text-align: center;
+  margin-top: 50px;
+  margin-left: 210px;
+  width: 90vw;
+  min-height: 95vh;
+  background-position: top;
+  background-size: auto 95vh;
+  background-repeat: repeat;
+}
+@media (max-width: 970px) {
+  #side-bar:not(:hover) ~ #body {
+    margin-left: 1em;
+    width: calc(100vw - 1em);
+  }
+}
+#body > ul {
+  background: rgb(160 120 240 / 0.4);
+  width: fit-content;
+  margin: auto;
+  padding: 0px 40px;
+  display: flex;
+  list-style: none;
+}
+#file-uploader-screen {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: none;
+}
+#file-uploader-screen > label {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  cursor: pointer;
+}
+#file-uploader-screen img {
+  background: rgb(100 100 250 / 0.5);
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+#body > ul > li {
+  border-bottom: 2px solid black;
+}
+#file-uploader-form > input {
+  height: 40px;
+  width: 110px;
+  padding: 5px;
+  cursor: pointer;
+}
+#info {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-top: 50vh;
+  height: 50vh;
+  width: 95vw;
+}
+#info > ul {
+  padding: 0px;
+  list-style: none;
+  z-index: 1000;
+}
+#info > ul > li {
+  border-bottom: 2px solid black;
+} 
+#notice {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw; 
+  height: 100vh; 
+  background-color: rgb(0 0 0 / 0.5);
+  font-size: 3.5em;
+  vertical-align: middle;
+  text-align: center;
+  z-index: 1000;
+}
+#notice > p {
+  margin: 40vh 0px;
+  padding: 0px 20px;
+  border-top: 2px solid orange;
+  border-bottom: 2px solid orange;
+  vertical-align: middle;
+  color: rgb(0 0 250);
+}
+#notice > p > ul {
+  margin: auto;
+  padding: 0px;
+  width: fit-content;
+  display: flex;
+  list-style: none;
+}
+#notice > p > ul > li {
+  display: flex;
+  height: fit-content;
+  margin: auto;
+}
+#notice > p > ul > li > img {
+  height: 2em;
+  padding: 0px 20px;
+}
