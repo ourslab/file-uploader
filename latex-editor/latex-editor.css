@@ -1,0 +1,129 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+#side-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 200px;
+  height: calc(100vh - 10px);
+  background-color: #112233;
+}
+@media (max-width: 970px) {
+  #side-bar:not(:hover) {
+    width: 1em;
+  }
+  #side-bar:not(:hover) > #files {
+    display: none;
+  }
+  #side-bar:not(:hover) ~ #top-bar {
+    width: calc(100vw - 1em);
+    margin-left: 1em;
+  }
+  #side-bar:not(:hover) ~ #editor-container {
+    margin-left: 1em;
+    width: calc(100vw - 1em);
+  }
+}
+#mode-container {
+  width: 200px;
+  height: 50px;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+#mode {
+  width: 100%;
+  height: 110%;
+  object-fit: contain;
+  padding: 0px;
+  cursor: pointer;
+  background-color: #333388;
+}
+#files {
+  overflow: scroll;
+  height: calc(100vh - 60px);
+}
+#files > ul{
+  list-style: none;
+  padding-left: 10px;
+}
+#files > details {
+  margin-top: 15px;
+  padding-left: 10px;
+}
+#files > details > ul {
+  list-style: none;
+}
+#files > ul > li, #files > details > ul > li{
+}
+#files > ul > li > ul, #files > details > ul > li > ul{
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+#files > ul > li > ul > li, #files > details > ul > li > ul > li {
+  text-overflow: ellipsis;
+}
+#files a, #files summary{
+  font-weight: bold;
+  color: #aa99bb;
+  cursor: pointer;
+}
+#files img{
+  height: 1em;
+}
+#top-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: calc(100vw - 200px);
+  height: 50px;
+  margin-left: 200px;
+  background-color: #aaaabb;
+}
+#top-bar > iframe {
+  width: 120px;
+  height: 50px;
+}
+#editor-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: calc(100vw - 200px);
+  height: calc(100vh - 50px - 10px);
+  padding: 0px;
+  margin-top: 50px;
+  margin-left: 200px;
+  text-align: center;
+  background-image: url("/public-background.webp");
+  background-position: top;
+  background-size: auto 95vh;
+  background-repeat: repeat;
+}
+#editor {
+  max-width: 90vw;
+  width: 1000px;
+  height: calc(100vh - 50px - 10px - 30px);
+  resize: horizontal;
+  margin: 10px auto;
+  padding: 5px;
+  font-size: 16px;
+  background-color: rgb(0 0 0 / 0.8);
+  color: rgb(255 255 255 / 1.0);
+}
+.overlap {
+  position: relative;
+}
+.contents {
+  opacity: 0;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+}
+
