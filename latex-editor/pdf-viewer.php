@@ -10,7 +10,7 @@
       $code = safe_str($_GET['code']);
       $name = safe_str($_GET['name']);
       echo "<div style=\"width:97vw;height:10000px;overflow:auto;margin:auto;\">";
-      echo "<iframe src=\"https://www.momiji.ddns-ip.net/file-uploader/SentFiles/{$code}/{$name}\" style=\"width:99%;height:99%;margin:0px;padding:0px;\"></iframe>";
+      echo "<iframe src=\"/file-uploader/SentFiles/{$code}/{$name}\" style=\"width:99%;height:99%;margin:0px;padding:0px;\"></iframe>";
       echo "</div>";
     }
   }
