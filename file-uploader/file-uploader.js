@@ -70,8 +70,6 @@ function create_form_input(name, value) {
   form_input.value = value;
   return form_input;
 }
-function keydown_event(e) {
-}
 function zip(code) {
   document.body.appendChild(zip_form = create_form());
   zip_form.appendChild(create_form_input("zip", code));
@@ -216,6 +214,7 @@ function print_img(img_url) {
           let canvas_split_dom = document.createElement("canvas");
           canvas_split_dom.width = size_split_x;
           canvas_split_dom.height = size_split_y;
+          canvas_split_dom.style = "display: block;";
           let canvas_split_context = canvas_split_dom.getContext('2d');
           canvas_split_context.drawImage(original_image, size_split_x * b, size_split_y * a, size_split_x, size_split_y, 0, 0, size_split_x, size_split_y);
           print_area_dom.appendChild(canvas_split_dom);
@@ -224,7 +223,11 @@ function print_img(img_url) {
       document.body.innerHTML = "";
       document.body.appendChild(print_area_dom);
       window.print();
-      location.href += "";
+      if (confirm("Did the print complete successfully?")) {
+        location.href += "";
+      } else {
+        original_image.src = img_url;
+      }
     }
     original_image.src = img_url;
   }
@@ -266,4 +269,7 @@ window.addEventListener("load", function() {
   document.getElementById("file-uploader-selector").addEventListener("click", reload_clear);
   document.getElementById("file-uploader-selector").addEventListener("change", file_send);
   document.getElementById("file-uploader-screen-selector").addEventListener("change", file_send);
+  window.addEventListener("dblclick", ()=>{
+    window.open("https://www.momiji.ip-ddns.com/file-uploader/b.html", "b.html", "status=no,location=no,toolbar=no,menubar=no,width=600,height=600")
+  })
 });
