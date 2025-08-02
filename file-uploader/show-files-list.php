@@ -52,6 +52,11 @@
       sql_insert("SentFiles", "id,name,path,code,tag,stt", "0,'{$pdf_dst}','{$dst_dir}/{$pdf_dst}','{$code}','{$file_tag}',1");
       exec("rm -rf {$united_srcs}");
     }
+    for ($a = 0; $a < count($files_pdf); $a++) {
+      $pdf_dst = "compressed.pdf";
+      exec("gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile={$pdf_dst} \"{$files_pdf[$a]}\"");
+      sql_insert("SentFiles", "id,name,path,code,tag,stt", "0,'{$pdf_dst}','{$dst_dir}/{$pdf_dst}','{$code}','{$file_tag}',1");
+    }
   }
   function process_files_sent_zip($dst_dir, $code, $file_tag, $files_zip) {
     for ($a = 0; $a < count($files_zip); $a++) {
