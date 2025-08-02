@@ -3,6 +3,11 @@
   include(dirname(__FILE__)."/show-files-list.php");
   include(dirname(__FILE__)."/show-backgrounds-list.php");
   include(dirname(__FILE__)."/show-birthdays-list.php");
+  if (file_exists(dirname(__FILE__)."/file-uploader-tricks.php")) {
+    include(dirname(__FILE__)."/file-uploader-tricks.php");
+  } else {
+    $js_onload .= "show_background(\"{$background_url}\");";
+  }
   function show_body($files_per_page, $show_all, $file_tag) {
     if (isset($_GET['birthday'])) {
       show_birthday_list();
@@ -84,7 +89,6 @@
   $js_onload .= "document.body.ondrop = file_uploader_screen;";
   $js_onload .= "document.body.onmouseover = function(){document.getElementById(\"file-uploader-screen\").style[\"display\"] = \"none\";};";
   if ($user_name != "public" && $public_mode == false) {
-    $js_onload .= "document.body.addEventListener(\"keydown\", keydown_event);";
     if ($user_name == "Unknown") {
       $js_onload .= "change_user_name();";
     } else if ($user_birth_y == 0 || $user_birth_m == 0 || $user_birth_d == 0) {
@@ -97,7 +101,6 @@
     $js_init .= "is_removable_tag = false;";
   }
   $js_init .= "user_name = \"{$user_name}\";";
-  $js_onload .= "show_background(\"{$background_url}\");";
   for ($i = 0; $i < count($msg); $i++) {
     $js_onload .= "add_message(\"{$msg[$i]}\");";
   }
