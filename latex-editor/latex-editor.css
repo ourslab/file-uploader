@@ -43,7 +43,7 @@ body {
   background-color: #333388;
 }
 #files {
-  overflow: scroll;
+  overflow-y: scroll;
   height: calc(100vh - 60px);
 }
 #files > ul{
@@ -72,6 +72,8 @@ body {
   font-weight: bold;
   color: #aa99bb;
   cursor: pointer;
+  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 #files img{
   height: 1em;
