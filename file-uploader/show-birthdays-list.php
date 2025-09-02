@@ -39,15 +39,28 @@
         array_push($warn, "Birthday update failed");
       }
     }
-    $query = sql_select("Birthday");
+    $today = intval(date("md"));
+    $next_birthdays_on_this_year = array();
+    $next_birthdays_on_next_year = array();
+    $query = sql_select("Birthday", "*", "", "month, day");
     while ($data = sql_data($query)) {
-      $data['month'] = str_pad($data['month'], 2, "0", STR_PAD_LEFT);
-      $data['day'] = str_pad($data['day'], 2, "0", STR_PAD_LEFT);
-      if (date("md") == "{$data['month']}{$data['day']}") {
-        global $notice;
-        array_push($notice, ["Happy birthday {$data['user_name']}!", "/file-uploader/birthday-cake.gif"]);
+      $data['month'] = intval($data['month']);
+      $data['day'] = intval($data['day']);
+      if ($data['month'] > 0 && $data['day'] > 0) {
+        $data['date'] = $data['month'] * 100 + $data['day'];
+        if ($data['date'] == $today) {
+          global $notice;
+          array_push($notice, ["Happy birthday {$data['user_name']}!", "/file-uploader/birthday-cake.gif"]);
+        } else if ($data['date'] > $today) {
+          array_push($next_birthdays_on_this_year, [$data['user_name'], "{$data['month']}/{$data['day']}"]);
+        } else if ($data['date'] < $today) {
+          array_push($next_birthdays_on_next_year, [$data['user_name'], "{$data['month']}/{$data['day']}"]);
+        }
       }
     }
+    $next_birthdays = array_merge($next_birthdays_on_this_year, $next_birthdays_on_next_year);
+    global $msg;
+    array_push($msg, "{$next_birthdays[0][0]}'s birthday, {$next_birthdays[0][1]}, is coming up.");
   }
   function show_birthday_list_row($id="", $name="", $year=null, $month=null, $day=null) {
     echo "<ul class=\"birthday-list\">";
