@@ -40,10 +40,10 @@
     global $admin;
     if ($admin) {
       echo "<li class=\"hide\"><a onclick=\"logout()\">&gt;&gt;&gt; Logout</a></li>";
-      echo "<li class=\"hide\"><a href=\"/phpmyadmin\" target=\"_blank\">&gt;&gt;&gt; phpMyAdmin</a></li>";
     } else {
       echo "<li class=\"hide\"><a onclick=\"login()\">&gt;&gt;&gt; Login</a></li>";
     }
+    echo "<li class=\"hide\"><a href=\"/phpmyadmin\" target=\"_blank\">&gt;&gt;&gt; phpMyAdmin</a></li>";
     echo "</ul>";
   }
 ?>
