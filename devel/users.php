@@ -44,7 +44,7 @@
       $user_birth_d = 0;
     }
   }
-  array_unshift($msg, "Welcome {$user_name}...");
+  array_unshift($msg, "Welcome {$user_name}");
   $admin = FALSE;
   if (isset($_POST['login'])) {
     if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
