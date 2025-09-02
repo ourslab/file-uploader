@@ -13,8 +13,6 @@
   $js_init = "";
   $js_onload = "";
   $msg = array();
-  array_push($msg, "[INFO] texのコンパイルは");
-  array_push($msg, "zipでまとめたものでも可能になりました．");
   $notice = array();
   $warn = array();
   $reload_time = intval(sql_data(sql_select("ServerConfig", "*", "name='reload_time'"))['value']);
