@@ -14,24 +14,35 @@
     }
     return "http://{$_SERVER['HTTP_HOST']}{$request_dir}";
   }
-  function get_temp_full_url($get_param_name, $get_param_temp_value=null) {
-    if (isset($_GET[$get_param_name])) {
-      $get_param_current_value = $_GET[$get_param_name];
-    } else {
-      $get_param_current_value = null;
+  function get_temp_full_url($temp_add_name, $temp_add_value=null, $temp_del_name=null) {
+    if (!empty($temp_add_name)) {
+      if (isset($_GET[$temp_add_name])) {
+        $original_add_value = $_GET[$temp_add_name];
+      } else {
+        $original_add_value = null;
+      }
+      $_GET[$temp_add_name] = $temp_add_value;
     }
-    if (is_null($get_param_temp_value)) {
-      unset($_GET[$get_param_name]);
-    } else {
-      $_GET[$get_param_name] = $get_param_temp_value;
+    if (!empty($temp_del_name)) {
+      if (isset($_GET[$temp_del_name])) {
+        $original_del_value = $_GET[$temp_del_name];
+      } else {
+        $original_del_value = null;
+      }
+      unset($_GET[$temp_del_name]);
     }
     $temp_full_url = get_full_url();
-    if (is_null($get_param_current_value)) {
-      if (isset($_GET[$get_param_name])) {
-        unset($_GET[$get_param_name]);
+    if (!empty($temp_del_name)) {
+      if (!is_null($original_del_value)) {
+        $_GET[$temp_del_name] = $original_del_value;
       }
-    } else {
-      $_GET[$get_param_name] = $get_param_current_value;
+    }
+    if (!empty($temp_add_name)) {
+      if (is_null($original_add_value)) {
+        unset($_GET[$temp_add_name]);
+      } else {
+        $_GET[$temp_add_name] = $original_add_value;
+      }
     }
     return $temp_full_url; 
   }
@@ -116,16 +127,16 @@
       exec("cp {$pdf} /home/nfs1/Nginx/file-uploader/{$dst_dir}/");
     }
     if ($status == 0) {
-      $query = sql_select("SentFiles", "*", "name='{$out}'");
+      $query = sql_select("SentFiles", "*", "name='{$out}' AND code='{$code}'");
       if ($query->rowCount() == 0) {
         sql_insert("SentFiles", "id,name,path,code,tag,stt", "0,'{$out}','{$dst_dir}/{$out}','{$code}','{$tag}',0");
       }
-      $query = sql_select("SentFiles", "*", "name='{$pdf}'");
+      $query = sql_select("SentFiles", "*", "name='{$pdf}' AND code='{$code}'");
       if ($query->rowCount() == 0) {
         sql_insert("SentFiles", "id,name,path,code,tag,stt", "0,'{$pdf}','{$dst_dir}/{$pdf}','{$code}','{$tag}',1");
       }
     } else {
-      $query = sql_select("SentFiles", "*", "name='{$out}'");
+      $query = sql_select("SentFiles", "*", "name='{$out}' AND code='{$code}'");
       if ($query->rowCount() == 0) {
         sql_insert("SentFiles", "id,name,path,code,tag,stt", "0,'{$out}','{$dst_dir}/{$out}','{$code}','{$tag}',1");
       }
