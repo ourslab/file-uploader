@@ -26,12 +26,12 @@
   <head>
     <meta charset="UTF-8" />
     <title>PDF.js</title>
-    <script type="module" src="pdfjs/build/pdf.mjs"></script>
+    <script type="module" src="pdf.js/build/pdf.mjs"></script>
     <script type="module">
       let busy = false;
       let scrollCount = 0;
       let pageNumber = <?php echo $page; ?>;
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "pdfjs/build/pdf.worker.mjs";
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "pdf.js/build/pdf.worker.mjs";
       const loadingTask = pdfjsLib.getDocument({ 
         url: "<?php echo $pdf_url; ?>",
         cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@latest/cmaps/',
