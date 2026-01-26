@@ -9,9 +9,7 @@
     if (!empty($_GET['code']) && !empty($_GET['name'])) {
       $code = safe_str($_GET['code']);
       $name = safe_str($_GET['name']);
-      echo "<div style=\"width:97vw;height:10000px;overflow:auto;margin:auto;\">";
-      echo "<iframe src=\"/file-uploader/SentFiles/{$code}/{$name}\" style=\"width:99%;height:99%;margin:0px;padding:0px;\"></iframe>";
-      echo "</div>";
+      echo "<iframe src=\"/file-uploader/SentFiles/{$code}/{$name}\" style=\"width:97vw;height:1000vh;margin:0px;padding:0px;\"></iframe>";
     }
   }
 ?>
