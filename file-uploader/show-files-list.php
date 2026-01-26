@@ -292,10 +292,10 @@
         echo "<ul>";
         echo "<li class=\"files-list-id\">{$data['id']}</li>";
         echo "<li class=\"files-list-link\"><a href=\"/file-uploader/{$data['path']}\" target=\"_blank\">{$data['name']}</a></li>";
-        global $img_exts;
+        global $img_exts, $generate_enabled;
         if (in_array($file_ext, $img_exts)) {
           echo "<li class=\"files-list-command\"><a onclick=\"set_background('/file-uploader/{$data['path']}')\">Set back</a></li>";
-        } else if ($file_ext == "tex") {
+        } else if ($generate_enabled == true && $file_ext == "tex") {
           echo "<li class=\"files-list-command\"><a href=\"/latex-editor/?code={$data['code']}&top_level={$data['name']}\" target=\"_blank\">Editor</a></li>";
         } else {
           echo "<li class=\"files-list-command\"></li>";
