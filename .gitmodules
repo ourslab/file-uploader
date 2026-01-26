@@ -1,0 +1,3 @@
+[submodule "latex-editor/pdf.js"]
+	path = latex-editor/pdf.js
+	url = https://github.com/mozilla/pdf.js.git
