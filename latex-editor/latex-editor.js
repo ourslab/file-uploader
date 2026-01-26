@@ -32,62 +32,68 @@ function editor_reset() {
     editor.mode.DOM.style["background-color"] = editor.mode.color.standby;
   }
 }
+function popup_text_open() {
+  if (editor.popup.text.DOM == null || editor.popup.text.DOM.closed) {
+    editor.popup.text.DOM = window.open(editor.popup.text.URL, "text", editor.popup.config);
+  }
+}
+function popup_text_reload() {
+  editor.popup.text.DOM.window.location.href = editor.popup.text.DOM.window.location.href;
+}
+function popup_pdf_open() {
+  if (editor.popup.pdf.DOM == null || editor.popup.pdf.DOM.closed) {
+    editor.popup.pdf.DOM = window.open(editor.popup.pdf.URL, "pdf", editor.popup.config);
+  }
+}
+function popup_pdf_reload() {
+  editor.popup.pdf.DOM.window.location.href = editor.popup.pdf.DOM.window.location.href;
+}
 function mode_change(e=null) {
   if (editor.mode.text == "standby") {
     editor.mode.text = "standby";
     editor.mode.DOM.src = "/file-uploader/generate.png";
     editor.mode.DOM.style["background-color"] = editor.mode.color.standby;
-    if (editor.popup.text.DOM == null || editor.popup.text.DOM.closed) {
-      editor.popup.text.DOM = window.open(editor.popup.text.URL, "text", editor.popup.config);
-    }
-    if (editor.popup.pdf.DOM == null || editor.popup.pdf.DOM.closed) {
-      editor.popup.pdf.DOM = window.open(editor.popup.pdf.URL, "pdf", editor.popup.config);
-    }
+    popup_text_open();
+    popup_pdf_open();
   }
 }
 function file_get(file_name="") {
   if (!file_name) {
     file_name = prompt("Enter new file name");
   }
+  let file_extension = file_name.split(".");
+  file_extension = file_extension[file_extension.length - 1].toLowerCase();
+  let is_text = true;
+  let file_extensions_binary = ["pdf", "jpg", "jpeg", "png", "webp", "gif", "eps"];
+  for (let a = 0; a < file_extensions_binary.length; a++) {
+    if (file_extension == file_extensions_binary[a]) {
+      is_text = false;
+    }
+  }
   if (file_name) {
-    editor.target_file = file_name; 
-    fetch(`/file-uploader/SentFiles/${editor.code}/${editor.target_file}`)
-    .then((data) => {
-      if (data.status == 200) {
-        return data.text();
-      } else {
-        return "";
-      }
-    })
-    .then((text) => {
-      editor.DOM.value = text;
-    })
-    .catch((e) => {
-      console.log(e)
-    });
+    if (is_text) {
+      editor.target_file = file_name; 
+      fetch(`/file-uploader/SentFiles/${editor.code}/${editor.target_file}`).then((data) => (data.status == 200)? data.text() : "").then((text) => editor.DOM.value = text);
+    } else {
+      alert("テキストエディタでバイナリを開こうとするなんて・・・\n\nおまえ死ぬ気か！？");
+    }
   }
 }
 function file_update() {
   if (editor.mode.text == "standby") {
     editor.mode.text = "generating";
     editor.mode.DOM.style["background-color"] = editor.mode.color.generating;
-    if (editor.popup.text.DOM == null || editor.popup.text.DOM.closed) {
-      editor.popup.text.DOM = window.open(editor.popup.text.URL, "text", editor.popup.config);
-    }
-    if (editor.popup.pdf.DOM == null || editor.popup.pdf.DOM.closed) {
-      editor.popup.pdf.DOM = window.open(editor.popup.pdf.URL, "pdf", editor.popup.config);
-    }
+    popup_text_open();
+    popup_pdf_open();
     editor.form_data = new FormData();
     editor.form_data.set("file_name", editor.target_file);
     editor.form_data.set("file_data", editor.DOM.value);
-    fetch(`/latex-editor/?code=${editor.code}&top_level=${editor.top_level}`, {method:"POST", body:editor.form_data})
-    .then((data) => data.text())
-    .then((text) => {
+    fetch(`/latex-editor/?code=${editor.code}&top_level=${editor.top_level}`, {method:"POST", body:editor.form_data}).then((data) => data.text()).then((text) => {
       editor.files.DOM.innerHTML = text;
-      editor.popup.text.DOM.window.location.href = editor.popup.text.DOM.window.location.href;
-      editor.popup.pdf.DOM.window.location.href = editor.popup.pdf.DOM.window.location.href.split('&scroll')[0] + `&scroll=${editor.popup.pdf.DOM.window.scrollY}`;
+      popup_text_reload();
+      popup_pdf_reload();
       editor.mode.text = "standby";
-      if (text.includes("error")) {
+      if (text.includes("<!-- error -->")) {
         editor.mode.DOM.style["background-color"] = editor.mode.color.error;
       } else {
         editor.mode.DOM.style["background-color"] = editor.mode.color.standby;
@@ -128,6 +134,6 @@ window.addEventListener("load", function() {
   editor.popup.text.file_name = editor.top_level.replace(".tex", ".out.txt");
   editor.popup.text.URL = `/file-uploader/SentFiles/${editor.code}/${editor.popup.text.file_name}`;
   editor.popup.pdf.file_name = editor.top_level.replace(".tex", ".pdf");
-  editor.popup.pdf.URL = `/latex-editor/pdf-viewer.php?code=${editor.code}&name=${editor.popup.pdf.file_name}`;
+  editor.popup.pdf.URL = `/latex-editor/pdf-viewer2.php?code=${editor.code}&name=${editor.popup.pdf.file_name}`;
   window.addEventListener("beforeunload", editor_close);
 });
