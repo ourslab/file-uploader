@@ -48,30 +48,30 @@
   if (isset($_GET['show-less'])) {
     $show_all = false;
     $show_mode_img = "/file-uploader/show-less.png";
-    $show_mode_url = get_temp_full_url('show-less');
+    $show_mode_url = get_temp_full_url(null, null, 'show-less');
   } else {
     $show_all = true;
     $show_mode_img = "/file-uploader/show-all.png";
-    $show_mode_url = get_temp_full_url('show-less', "");
+    $show_mode_url = get_temp_full_url('show-less', null, null);
   }
   if (isset($_GET['background-reset'])) {
-    $background_reset_url = get_temp_full_url('background-reset');
+    $background_reset_url = get_temp_full_url(null, null, 'background-reset');
   } else {
-    $background_reset_url = get_temp_full_url('background-reset', "");
+    $background_reset_url = get_temp_full_url('background-reset', null, null);
   }
-  if (isset($_GET['no-generate']) || $generate_enabled == false) {
+  if (!isset($_GET['generate']) && (isset($_GET['no-generate']) || $generate_enabled == false)) {
     $generate_enabled = false;
     $generate_mode_img = "/file-uploader/nogenerate.png";
-    $generate_mode_url = get_temp_full_url('no-generate');
+    $generate_mode_url = get_temp_full_url('generate', null, 'no-generate');
   } else {
     $generate_enabled = true;
     $generate_mode_img = "/file-uploader/generate.png";
-    $generate_mode_url = get_temp_full_url('no-generate', "");
+    $generate_mode_url = get_temp_full_url('no-generate', null, 'generate');
   }
   if (isset($_GET['birthday'])) {
-    $birthday_url = get_temp_full_url("birthday");
+    $birthday_url = get_temp_full_url(null, null, "birthday");
   } else {
-    $birthday_url = get_temp_full_url("birthday", "");
+    $birthday_url = get_temp_full_url("birthday", null, null);
   }
   process_backgrounds_set();
   process_backgrounds_reset();
