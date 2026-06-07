@@ -60,7 +60,7 @@
   }
   function process_files_sent_zip($dst_dir, $code, $file_tag, $files_zip) {
     for ($a = 0; $a < count($files_zip); $a++) {
-      mkdir("_temp", 0700);
+      mkdir("_temp", 0755);
       chdir("_temp");
       exec("cp ../{$files_zip[$a]} ./");
       exec("unzip {$files_zip[$a]}");
@@ -132,7 +132,7 @@
       $files_img = array();
       $dst_dir = "SentFiles/{$code}";
       if (is_dir($dst_dir) == false) {
-        mkdir($dst_dir, 0700, true);
+        mkdir($dst_dir, 0755, true);
       }
       $files_count = 0;
       for ($a = 0; $a < count($_FILES['files']['name']); $a++) {
@@ -284,9 +284,10 @@
       $query = sql_select("SentFiles", "*", "stt=1 and tag='{$file_tag}'", "id DESC");
     }
     $files_count = $query->rowCount();
-    [$files_count_start, $files_count_end] = show_page_number($files_per_page, $file_tag, $files_count);
+    //[$files_count_start, $files_count_end] = show_page_number($files_per_page, $file_tag, $files_count);
+    echo "<p></p>";
     for ($a = 0; $data = sql_data($query); $a++) {
-      if ($a >= $files_count_start && $a < $files_count_end) {
+      //if ($a >= $files_count_start && $a < $files_count_end) {
         $file_ext = explode('.', $data['name']);
         $file_ext = array_pop($file_ext);
         echo "<ul>";
@@ -313,7 +314,7 @@
           echo "<li class=\"files-list-remove\"><a onclick=\"file_remove({$data['id']})\">Remove</a></li>";
         }
         echo "</ul>";
-      }
+      //}
     }
   }
 ?>
