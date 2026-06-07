@@ -82,8 +82,9 @@
   process_link_add();
   process_link_remove();
   process_birthday();
+  $js_init .= "reload_span = {$reload_time};";
   if ($reload_time > 0) {
-    $js_onload .= "reload_event = setTimeout(function(){location.href += \"\";}, {$reload_time});";
+    $js_onload .= "setup_next_reload();";
   }
   $js_onload .= "document.body.ondragover = function(e){e.preventDefault();document.getElementById(\"file-uploader-screen\").style[\"display\"] = \"block\";};";
   $js_onload .= "document.body.ondrop = file_uploader_screen;";

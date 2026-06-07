@@ -1,6 +1,12 @@
 <?php
   include(dirname(__FILE__)."/../devel/initialize.php");
   include(dirname(__FILE__)."/file-uploader.php");
+
+  if (isset($_GET['ajax'])) {
+    show_body($files_per_page, $show_all, $file_tag);
+    echo "<div id='ajax-messages' style='display:none;' data-messages='" . htmlspecialchars(json_encode(array('msg' => $msg, 'warn' => $warn, 'notice' => $notice)), ENT_QUOTES, 'UTF-8') . "'></div>";
+    exit;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="ja">

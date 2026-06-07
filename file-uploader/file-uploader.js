@@ -71,9 +71,7 @@ function create_form_input(name, value) {
   return form_input;
 }
 function zip(code) {
-  document.body.appendChild(zip_form = create_form());
-  zip_form.appendChild(create_form_input("zip", code));
-  return zip_form.submit();
+  ajax_post_action({ "zip": code });
 }
 function show_background(url, update=true) {
   if (update) {
@@ -97,9 +95,7 @@ function set_background(bg_url=null) {
   }
 }
 function background_reset(bg_id) {
-  document.body.appendChild(bg_form = create_form());
-  bg_form.appendChild(create_form_input("background-reset", bg_id));
-  return bg_form.submit();
+  ajax_post_action({ "background-reset": bg_id });
 }
 function add_link() {
   reload_clear();
@@ -113,7 +109,7 @@ function add_link() {
       return link_form.submit();
     } 
   }
-  location.href += "";
+  ajax_reload();
 }
 function delete_link() {
   reload_clear();
@@ -123,7 +119,7 @@ function delete_link() {
     link_form.appendChild(create_form_input("dellink-id", link_id));
     return link_form.submit();
   }
-  location.href += "";
+  ajax_reload();
 }
 function change_tag() {
   reload_clear();
@@ -155,31 +151,137 @@ async function file_uploader_screen(e) {
     }
   }
 }
+
+// Ajax post action helper
+function ajax_post_action(params) {
+  reload_clear();
+  let formData = new FormData();
+  for (let key in params) {
+    formData.append(key, params[key]);
+  }
+  
+  let url = location.href + (location.href.includes('?') ? '&' : '?') + 'ajax=1';
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(html => {
+    update_body_html(html);
+  })
+  .catch(err => {
+    add_warning("Action failed: " + err);
+    ajax_reload();
+  });
+}
+
+// Ajax reload list
+function ajax_reload() {
+  reload_clear();
+  let url = location.href + (location.href.includes('?') ? '&' : '?') + 'ajax=1';
+  fetch(url)
+  .then(response => response.text())
+  .then(html => {
+    update_body_html(html);
+  })
+  .catch(err => {
+    console.error("Failed to reload list:", err);
+    setup_next_reload();
+  });
+}
+
+// Update body content and process messages
+function update_body_html(html) {
+  let parser = new DOMParser();
+  let doc = parser.parseFromString(html, 'text/html');
+  
+  let ajaxMessages = doc.getElementById('ajax-messages');
+  if (ajaxMessages) {
+    let data = JSON.parse(ajaxMessages.getAttribute('data-messages') || '{}');
+    if (data.msg) {
+      data.msg.forEach(str => add_message(str));
+    }
+    if (data.warn) {
+      data.warn.forEach(str => add_warning(str));
+    }
+    if (data.notice) {
+      data.notice.forEach(item => add_notice(item[0], item[1], 0));
+    }
+    ajaxMessages.remove();
+  }
+  
+  document.getElementById("body").innerHTML = doc.body.innerHTML;
+  
+  if (background_url) {
+    show_background(background_url, false);
+  }
+  
+  setup_next_reload();
+}
+
+// Setup next auto-reload timer
+function setup_next_reload() {
+  reload_clear();
+  if (reload_span > 0) {
+    reload_event = setTimeout(ajax_reload, reload_span);
+  }
+}
+
 function file_send(e=null) {
   reload_clear();
   if (!is_removable_tag) {
     let proceed = confirm("You cannot remove the file you sent. Would you still like to continue?")
     if (!proceed) {
-      location.href += "";
+      ajax_reload();
       return;
     }
   }
-  document.getElementById("file-uploader-form").submit();
+  
+  let formData = new FormData();
+  let files1 = document.getElementById("file-uploader-selector").files;
+  let files2 = document.getElementById("file-uploader-screen-selector").files;
+  
+  if (files1 && files1.length > 0) {
+    for (let i = 0; i < files1.length; i++) {
+      formData.append('files[]', files1[i]);
+    }
+  } else if (files2 && files2.length > 0) {
+    for (let i = 0; i < files2.length; i++) {
+      formData.append('files[]', files2[i]);
+    }
+  } else {
+    ajax_reload();
+    return;
+  }
+  
+  add_notice("Uploading...", "", 0);
+  
+  let url = location.href + (location.href.includes('?') ? '&' : '?') + 'ajax=1';
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(html => {
+    update_body_html(html);
+    document.getElementById("file-uploader-selector").value = "";
+    document.getElementById("file-uploader-screen-selector").value = "";
+  })
+  .catch(err => {
+    add_warning("Upload failed: " + err);
+    ajax_reload();
+  });
 }
 function file_remove(file_id) {
-  document.body.appendChild(file_form = create_form());
-  file_form.appendChild(create_form_input("remove", file_id));
-  return file_form.submit();
+  ajax_post_action({ "remove": file_id });
 }
 function file_all_remove() {
-  document.body.appendChild(file_form = create_form());
-  file_form.appendChild(create_form_input("all-remove", ""));
-  return file_form.submit();
+  if (confirm("Are you sure you want to remove all files?")) {
+    ajax_post_action({ "all-remove": "" });
+  }
 }
 function file_revive(file_id) {
-  document.body.appendChild(file_form = create_form());
-  file_form.appendChild(create_form_input("revive", file_id));
-  return file_form.submit();
+  ajax_post_action({ "revive": file_id });
 }
 function change_user_name() {
   let new_name = prompt("New user name");
