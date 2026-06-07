@@ -49,8 +49,10 @@
       if ($data['month'] > 0 && $data['day'] > 0) {
         $data['date'] = $data['month'] * 100 + $data['day'];
         if ($data['date'] == $today) {
-          global $notice;
-          array_push($notice, ["Happy birthday {$data['user_name']}!", "/file-uploader/birthday-cake.gif"]);
+          if (!isset($_GET['ajax'])) {
+            global $notice;
+            array_push($notice, ["Happy birthday {$data['user_name']}!", "/file-uploader/birthday-cake.gif"]);
+          }
         } else if ($data['date'] > $today) {
           array_push($next_birthdays_on_this_year, [$data['user_name'], "{$data['month']}/{$data['day']}"]);
         } else if ($data['date'] < $today) {
@@ -59,8 +61,10 @@
       }
     }
     $next_birthdays = array_merge($next_birthdays_on_this_year, $next_birthdays_on_next_year);
-    global $msg;
-    array_push($msg, "{$next_birthdays[0][0]}'s birthday, {$next_birthdays[0][1]}, is coming up.");
+    if (!isset($_GET['ajax'])) {
+      global $msg;
+      array_push($msg, "{$next_birthdays[0][0]}'s birthday, {$next_birthdays[0][1]}, is coming up.");
+    }
   }
   function show_birthday_list_row($id="", $name="", $year=null, $month=null, $day=null) {
     echo "<ul class=\"birthday-list\">";

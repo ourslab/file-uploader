@@ -192,6 +192,12 @@ function ajax_reload() {
 
 // Update body content and process messages
 function update_body_html(html) {
+  // Clear old messages
+  let info = document.getElementById("info");
+  if (info && info.children[0]) {
+    info.children[0].innerHTML = "";
+  }
+
   let parser = new DOMParser();
   let doc = parser.parseFromString(html, 'text/html');
   

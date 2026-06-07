@@ -44,7 +44,9 @@
       $user_birth_d = 0;
     }
   }
-  array_unshift($msg, "Welcome {$user_name}");
+  if (!isset($_GET['ajax'])) {
+    array_unshift($msg, "Welcome {$user_name}");
+  }
   $admin = FALSE;
   if (isset($_POST['login'])) {
     if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
@@ -57,7 +59,9 @@
     $login_hash = md5("{$_SERVER['PHP_AUTH_USER']}{$_SERVER['PHP_AUTH_PW']}");
     if ($login_hash == "cf686a8b44e61858048020784fef8120") {
       $admin = TRUE;
-      $msg[0] .= " [admin]";
+      if (!isset($_GET['ajax'])) {
+        $msg[0] .= " [admin]";
+      }
     } else {
       basic_auth($login_hash);
     }
