@@ -40,6 +40,14 @@ p {
   cursor: pointer;
   background-color: #333388;
 }
+.tags-list {
+  max-height: calc(100vh - 40px);
+  overflow: scroll;
+  scrollbar-width: none;
+}
+.tags-list::-webkit-scrollbar {
+  display: none;
+}
 .tags-list > ul {
   list-style: none;
   padding-left: 10px;
@@ -331,10 +339,16 @@ p {
   margin-top: 50px;
   margin-left: 210px;
   width: 90vw;
-  min-height: 95vh;
+  min-height: calc(100vh - 50px);
+  max-height: calc(100vh - 50px);
+  overflow: scroll;
+  scrollbar-width: none;
   background-position: top;
   background-size: auto 95vh;
   background-repeat: repeat;
+}
+#body::-webkit-scrollbar {
+  display: none;
 }
 @media (max-width: 970px) {
   #side-bar:not(:hover) ~ #body {
