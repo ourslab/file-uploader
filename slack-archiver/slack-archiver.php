@@ -67,7 +67,13 @@
           if (!empty($text)) {
             echo " <br>";
           }
-          echo "<a class=\"message-file\" href=\"{$file_url}\">📎 {$file_name}</a>";
+          $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+          $image_extensions = array('jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg');
+          if (in_array($ext, $image_extensions)) {
+            echo "<a class=\"message-file message-file-image\" href=\"{$file_url}\" data-preview-url=\"{$file_url}\">📎 {$file_name}</a>";
+          } else {
+            echo "<a class=\"message-file\" href=\"{$file_url}\">📎 {$file_name}</a>";
+          }
         }
         echo "    </div>";
         echo "  </div>";
