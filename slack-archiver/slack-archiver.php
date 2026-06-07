@@ -2,14 +2,14 @@
   function channels_list() {
     global $channel;
     echo "<ul>";
-    $query = sql_select("ArchivedData", "channel", "channel='$channel'");
+    $query = sql_select("SlackArchivedData", "channel", "channel='$channel'");
     if ($data = sql_data($query)) {
       echo "<li>";
       echo "<img class=\"channel-icon\" src=\"/favicon.ico\">";
       echo "<a class=\"channel-top\" onclick=\"change_channel('{$data['channel']}')\">{$data['channel']}</a>";
       echo "</li>";
     }
-    $query = sql_select("ArchivedData", " distinct channel", "channel!='$channel'", "channel DESC");
+    $query = sql_select("SlackArchivedData", " distinct channel", "channel!='$channel'", "channel DESC");
     while ($data = sql_data($query)) {
       echo "<li>";
       echo "<img class=\"channel-icon\" src=\"/favicon.ico\">";
@@ -29,7 +29,9 @@
   function messages_list() {
     global $channel;
     echo "<ul>";
-    $query = sql_select("ArchivedData", "*", "channel='$channel'", "date DESC, time DESC, id DESC");
+    $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "thread_ts DESC, date ASC, time ASC, id ASC");
+    $current_thread_ts = "";
+    $parent_date_time = "";
     while($data = sql_data($query)){
       $body = "";
       $user = $data['user'];
@@ -37,8 +39,21 @@
       $file_url = "/slack-archiver/".$data['data'];
       $file_name = safe_str($data['name']);
       $time_stamp = "{$data['date']}_{$data['time']}";
+
+      $is_reply = false;
+      if (empty($data['thread_ts'])) {
+        $current_thread_ts = "";
+        $parent_date_time = "";
+      } else if ($current_thread_ts !== $data['thread_ts']) {
+        $current_thread_ts = $data['thread_ts'];
+        $parent_date_time = $data['date'] . $data['time'];
+      } else if ($parent_date_time !== $data['date'] . $data['time']) {
+        $is_reply = true;
+      }
+      $li_class = $is_reply ? "message-item reply" : "message-item parent";
+
       if (!empty($text) || !empty($file_name)) {
-        echo "<li><ul id={$time_stamp}>";
+        echo "<li class=\"{$li_class}\"><ul id={$time_stamp}>";
         echo "<li class=\"message-name\">{$user}</li>";
         echo "<li class=\"message-text\">{$text}<a href=\"{$file_url}\">{$file_name}</a></li>";
         echo "<li class=\"message-timestamp\"><a href=\"/slack-archiver/#{$time_stamp}\">{$time_stamp}</a></li>";
@@ -52,7 +67,7 @@
   if(!empty($_GET['channel'])){
     $channel = safe_str($_GET['channel']);
   }else{
-    $query = sql_select("ArchivedData", "channel,date,time", "", "date DESC, time DESC");
+    $query = sql_select("SlackArchivedData", "channel,date,time", "", "date DESC, time DESC");
     if($data = sql_data($query)){
       $channel = $data['channel'];
     }

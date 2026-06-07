@@ -79,6 +79,12 @@ body {
   padding: 0.5em;
   border-bottom: 2px solid black;
 }
+#body > ul > li.reply {
+  margin-left: 4em;
+  border-left: 4px solid #888;
+  border-bottom: 1px dashed black;
+  background-color: rgba(255, 255, 255, 0.05);
+}
 #body > ul > li > ul {
   display: flex;
   padding: 0px;
