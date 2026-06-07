@@ -1,22 +1,17 @@
 <?php
   function channels_list() {
     global $channel;
-    echo "<ul>";
+    echo "<div class=\"sidebar-header\">Slack Archiver</div>";
+    echo "<div class=\"channel-list\">";
     $query = sql_select("SlackArchivedData", "channel", "channel='$channel'");
     if ($data = sql_data($query)) {
-      echo "<li>";
-      echo "<img class=\"channel-icon\" src=\"/favicon.ico\">";
-      echo "<a class=\"channel-top\" onclick=\"change_channel('{$data['channel']}')\">{$data['channel']}</a>";
-      echo "</li>";
+      echo "<a class=\"channel-item active\" onclick=\"change_channel('{$data['channel']}')\"># {$data['channel']}</a>";
     }
     $query = sql_select("SlackArchivedData", " distinct channel", "channel!='$channel'", "channel DESC");
     while ($data = sql_data($query)) {
-      echo "<li>";
-      echo "<img class=\"channel-icon\" src=\"/favicon.ico\">";
-      echo "<a onclick=\"change_channel('{$data['channel']}')\">{$data['channel']}</a>";
-      echo "</li>";
+      echo "<a class=\"channel-item\" onclick=\"change_channel('{$data['channel']}')\"># {$data['channel']}</a>";
     }
-    echo "</ul>";
+    echo "</div>";
   }
   function replace_user_id($text) {
     global $channel;
@@ -28,7 +23,7 @@
   }
   function messages_list() {
     global $channel;
-    echo "<ul>";
+    echo "<div class=\"message-list\">";
     $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "thread_ts DESC, date ASC, time ASC, id ASC");
     $current_thread_ts = "";
     $parent_date_time = "";
@@ -39,7 +34,8 @@
       $file_url = "/slack-archiver/".$data['data'];
       $file_name = safe_str($data['name']);
       $time_stamp = "{$data['date']}_{$data['time']}";
-
+      $display_time = substr($data['time'], 0, 5);
+      
       $is_reply = false;
       if (empty($data['thread_ts'])) {
         $current_thread_ts = "";
@@ -53,14 +49,32 @@
       $li_class = $is_reply ? "message-item reply" : "message-item parent";
 
       if (!empty($text) || !empty($file_name)) {
-        echo "<li class=\"{$li_class}\"><ul id={$time_stamp}>";
-        echo "<li class=\"message-name\">{$user}</li>";
-        echo "<li class=\"message-text\">{$text}<a href=\"{$file_url}\">{$file_name}</a></li>";
-        echo "<li class=\"message-timestamp\"><a href=\"/slack-archiver/#{$time_stamp}\">{$time_stamp}</a></li>";
-        echo "</ul></li>";
+        $avatar_letter = mb_substr($user, 0, 1, "UTF-8");
+        $hash = md5($user);
+        $color = substr($hash, 0, 6);
+        
+        echo "<div class=\"{$li_class}\" id=\"{$time_stamp}\">";
+        echo "  <div class=\"message-gutter\">";
+        echo "    <div class=\"message-avatar\" style=\"background-color: #{$color};\">{$avatar_letter}</div>";
+        echo "  </div>";
+        echo "  <div class=\"message-content\">";
+        echo "    <div class=\"message-header\">";
+        echo "      <span class=\"message-name\">{$user}</span>";
+        echo "      <span class=\"message-timestamp\"><a href=\"/slack-archiver/#{$time_stamp}\">{$data['date']} {$display_time}</a></span>";
+        echo "    </div>";
+        echo "    <div class=\"message-text\">{$text}";
+        if (!empty($file_name)) {
+          if (!empty($text)) {
+            echo " <br>";
+          }
+          echo "<a class=\"message-file\" href=\"{$file_url}\">📎 {$file_name}</a>";
+        }
+        echo "    </div>";
+        echo "  </div>";
+        echo "</div>";
       }
     }
-    echo "</ul>";
+    echo "</div>";
   }
   $init_set = "";
   $init_exec = "";
