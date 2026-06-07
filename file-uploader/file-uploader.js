@@ -269,7 +269,4 @@ window.addEventListener("load", function() {
   document.getElementById("file-uploader-selector").addEventListener("click", reload_clear);
   document.getElementById("file-uploader-selector").addEventListener("change", file_send);
   document.getElementById("file-uploader-screen-selector").addEventListener("change", file_send);
-  window.addEventListener("dblclick", ()=>{
-    window.open("https://www.momiji.ip-ddns.com/file-uploader/b.html", "b.html", "status=no,location=no,toolbar=no,menubar=no,width=600,height=600")
-  })
 });
