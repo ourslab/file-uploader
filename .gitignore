@@ -2,8 +2,7 @@
 *.wav
 default-background*.*
 devel/database.php
-file-uploader/b.html
 file-uploader/file-uploader-tricks.php
 file-uploader/SentFiles/
 phpmyadmin/
-slack-archiver/
+slack-archiver/ArchivedData/

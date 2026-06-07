@@ -1,0 +1,98 @@
+body {
+  overflow-x: hidden;
+}
+.channel-icon {
+  width: 1em;
+}
+.message-name {
+  width: 10em;
+  text-align: center;
+}
+.message-text {
+  width: 50em;
+  white-space: pre-wrap;
+}
+.message-timestamp {
+  width: 10em;
+  text-align: center;
+}
+#sidebar {
+  background-color: rgb(20 40 60);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 9em;
+  height: 100vh;
+  padding: 1em;
+  font-weight: bold;
+}
+#sidebar > ul {
+  list-style: none;
+  padding: 0px;
+}
+#sidebar > ul > li {
+  width: fit-content;
+}
+#sidebar > ul > li > a {
+  color: #aa99bb;
+  cursor: pointer;
+}
+#sidebar > ul > li > a.channel-top {
+  color: rgb(250 200 100);
+}
+#sidebar > ul > li > a:hover {
+  color: rgb(0 255 255);
+}
+#background {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  margin-left: 11em;
+  width: 90vw;
+  height: 100vh;
+  background-position: top;
+  background-size: auto 100vh;
+  background-repeat: repeat;
+}
+#body {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin-left: 11em;
+  color: rgb(255 255 255);
+  text-shadow: 1px  1px 1px rgb(0 50 100),
+              -1px  1px 1px rgb(0 50 100),
+               1px -1px 1px rgb(0 50 100),
+              -1px -1px 1px rgb(0 50 100),
+               1px  0px 1px rgb(0 50 100),
+               0px  1px 1px rgb(0 50 100),
+              -1px  0px 1px rgb(0 50 100),
+               0px -1px 1px rgb(0 50 100);
+  background-color: rgb(50 50 100 / 0.7);
+}
+#body > ul {
+  margin: auto;
+  padding: 1em;
+  list-style: none;
+}
+#body > ul > li {
+  padding: 0.5em;
+  border-bottom: 2px solid black;
+}
+#body > ul > li > ul {
+  display: flex;
+  padding: 0px;
+  list-style: none;
+}
+#body > ul > li > ul > li {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  overflow: hidden;
+}
+#body > ul > li > ul > li > a {
+  color: rgb(150 255 200);
+}
+#body > ul > li > ul > li > a:hover {
+  color: rgb(0 0 0);
+}
+
