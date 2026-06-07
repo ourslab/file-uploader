@@ -1,5 +1,10 @@
 <?php
-  $user_ip = $_SERVER['REMOTE_ADDR'];
+  if (empty($_COOKIE['REMOTE_ADDR'])) {
+    $user_ip = $_SERVER['REMOTE_ADDR'];
+  } else {
+    $user_ip = $_COOKIE['REMOTE_ADDR'];
+  }
+  $js_onload .= 'fetch("https://webserver.momiji.ip-ddns.com/ip.php").then(d=>d.text()).then(t=>document.cookie=`REMOTE_ADDR=${t}`);';
   $query = sql_select("IP", "*", "addr='{$user_ip}'");
   if ($query->rowCount() == 0) {
     $user_id = -1;
