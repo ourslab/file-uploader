@@ -19,6 +19,8 @@
       <?php echo $js_init; ?>
       window.onload = function() {
         <?php echo $js_onload; ?>
+        // Mark initial messages as system messages to prevent them from being cleared
+        document.querySelectorAll('#info ul li').forEach(li => li.classList.add('system-msg'));
       }
     </script>
   </head>
