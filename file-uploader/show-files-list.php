@@ -17,11 +17,11 @@
     if (!empty($_POST['zip'])) {
       $zip_code = safe_str($_POST['zip']);
       $zip_name = "{$zip_code}.zip";
-      $zip_path = "SentFiles/{$zip_code}/{$zip_name}";
-      chdir("SentFiles/{$zip_code}");
+      $zip_path = "files/{$zip_tag}/{$zip_code}/{$zip_name}";
+      chdir("files/{$zip_tag}/{$zip_code}");
       exec("rm -rf {$zip_name}");
       exec("zip {$zip_name} `ls | grep -v {$zip_name}`");
-      chdir("../../");
+      chdir("../../../");
       if (is_removable_file($zip_tag)) {
         sql_update("SentFiles", "stt=0", "code='{$zip_code}'");
       }
@@ -111,11 +111,12 @@
   function process_files_sent($file_tag, $code, $generate_enabled) {
     if (is_null($code)) {
       while (1) {
-        $code = make_code();
+        $code = date("YmdHis");
         $query = sql_select("SentFiles", "id", "code='$code'");
         if ($query->rowCount() == 0) {
           break;
         }
+        sleep(1);
       }
     } else {
       $query = sql_select("SentFiles", "tag", "code='{$code}'");
@@ -130,7 +131,7 @@
       $files_pdf = array();
       $files_zip = array();
       $files_img = array();
-      $dst_dir = "SentFiles/{$code}";
+      $dst_dir = "files/{$file_tag}/{$code}";
       if (is_dir($dst_dir) == false) {
         mkdir($dst_dir, 0755, true);
       }
@@ -172,7 +173,7 @@
       process_files_sent_pdf($dst_dir, $code, $file_tag, $files_pdf);
       process_files_sent_zip($dst_dir, $code, $file_tag, $files_zip);
       process_files_sent_img($dst_dir, $code, $file_tag, $files_img);
-      chdir("../../");
+      chdir("../../../");
       if ($files_count == 0) {
         global $warn;
         array_push($warn, "Some error occurred while submitting your file.");

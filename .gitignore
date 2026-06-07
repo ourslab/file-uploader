@@ -3,6 +3,7 @@
 default-background*.*
 devel/database.php
 file-uploader/file-uploader-tricks.php
+file-uploader/files/
 file-uploader/SentFiles/
 phpmyadmin/
 slack-archiver/ArchivedData/

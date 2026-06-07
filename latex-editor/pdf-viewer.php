@@ -9,7 +9,14 @@
     if (!empty($_GET['code']) && !empty($_GET['name'])) {
       $code = safe_str($_GET['code']);
       $name = safe_str($_GET['name']);
-      echo "<iframe src=\"/file-uploader/SentFiles/{$code}/{$name}\" style=\"width:97vw;height:1000vh;margin:0px;padding:0px;\"></iframe>";
+      
+      $query = sql_select("SentFiles", "tag", "code='{$code}'");
+      if ($data = sql_data($query)) {
+        $tag = $data['tag'];
+      } else {
+        $tag = "public";
+      }
+      echo "<iframe src=\"/file-uploader/files/{$tag}/{$code}/{$name}\" style=\"width:97vw;height:1000vh;margin:0px;padding:0px;\"></iframe>";
     }
   }
 ?>

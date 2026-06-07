@@ -65,6 +65,14 @@
   if (!empty($_GET['code'])) {
     $code = safe_str($_GET['code']);
     $js_init .= "editor.code = \"{$code}\";";
+    // Get file tag associated with the code
+    $query = sql_select("SentFiles", "tag", "code='{$code}'");
+    if ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+      $file_tag = $data['tag'];
+    } else {
+      $file_tag = $user_name;
+    }
+    $js_init .= "editor.tag = \"{$file_tag}\";";
   } else {
     redirect("/", 301);
   }
@@ -79,8 +87,15 @@
     redirect("/", 301);
   }
   if (!empty($_POST['file_name'])) {
-    exec("mkdir -p ../file-uploader/SentFiles/{$code}");
-    chdir("../file-uploader/SentFiles/{$code}");
+    $query = sql_select("SentFiles", "*", "code='{$code}'");
+    if ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+      $file_tag = $data['tag'];
+    } else {
+      $file_tag = $user_name;
+    }
+    $dir_name = "files/{$file_tag}/{$code}";
+    exec("mkdir -p ../file-uploader/{$dir_name}");
+    chdir("../file-uploader/{$dir_name}");
     exec("mkdir -p {$img_dir}");
     chdir($img_dir);
     for ($a = 0; $a < count($img_exts); $a++) {
@@ -89,17 +104,11 @@
       }
     }
     chdir("../");
-    $dir_name = "SentFiles/{$code}";
+    
     $file_name = safe_str($_POST['file_name']);
     $file_data = str_replace("\r", "\n", str_replace("\r\n", "\n", $_POST['file_data']));
-    $query = sql_select("SentFiles", "*", "code='{$code}'");
-    if ($data = $query->fetch(PDO::FETCH_ASSOC)) {
-      $file_tag = $data['tag'];
-    } else {
-      $file_tag = $user_name;
-    }
     if (is_removable()) {
-      $file_path = "SentFiles/{$code}/{$file_name}";
+      $file_path = "{$dir_name}/{$file_name}";
       $query = sql_select("SentFiles", "*", "code='{$code}' and name='{$file_name}'");
       if ($query->rowCount() == 0) {
         sql_insert("SentFiles", "id,name,path,code,tag,stt", "0,'$file_name','$file_path','$code','$file_tag',1"); 

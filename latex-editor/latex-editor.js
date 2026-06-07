@@ -73,7 +73,7 @@ function file_get(file_name="") {
   if (file_name) {
     if (is_text) {
       editor.target_file = file_name; 
-      fetch(`/file-uploader/SentFiles/${editor.code}/${editor.target_file}`).then((data) => (data.status == 200)? data.text() : "").then((text) => editor.DOM.value = text);
+      fetch(`/file-uploader/files/${editor.tag}/${editor.code}/${editor.target_file}`).then((data) => (data.status == 200)? data.text() : "").then((text) => editor.DOM.value = text);
     } else {
       alert("テキストエディタでバイナリを開こうとするなんて・・・\n\nおまえ死ぬ気か！？");
     }
@@ -132,7 +132,7 @@ window.addEventListener("load", function() {
   editor.files.DOM = document.getElementById("files");
   file_get(editor.top_level);
   editor.popup.text.file_name = editor.top_level.replace(".tex", ".out.txt");
-  editor.popup.text.URL = `/file-uploader/SentFiles/${editor.code}/${editor.popup.text.file_name}`;
+  editor.popup.text.URL = `/file-uploader/files/${editor.tag}/${editor.code}/${editor.popup.text.file_name}`;
   editor.popup.pdf.file_name = editor.top_level.replace(".tex", ".pdf");
   editor.popup.pdf.URL = `/latex-editor/pdf-viewer2.php?code=${editor.code}&name=${editor.popup.pdf.file_name}`;
   window.addEventListener("beforeunload", editor_close);

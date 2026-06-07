@@ -19,7 +19,13 @@
     $url_base = get_url();
     return "{$url_base}?code={$code}&name={$name}&page={$page}";
   }
-  $pdf_url = "/file-uploader/SentFiles/{$code}/{$name}";
+  $query = sql_select("SentFiles", "tag", "code='{$code}'");
+  if ($data = sql_data($query)) {
+    $tag = $data['tag'];
+  } else {
+    $tag = "public";
+  }
+  $pdf_url = "/file-uploader/files/{$tag}/{$code}/{$name}";
 ?>
 <!DOCTYPE html>
 <html lang="ja">
