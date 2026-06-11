@@ -13,16 +13,26 @@
     }
     echo "</div>";
   }
+  $slack_users_map = null;
   function replace_user_id($text) {
-    global $channel;
-    $query = sql_select("SlackUsers", "distinct user_id,user_name");
-    while($data = sql_data($query)){
-      $text = str_replace("<@{$data['user_id']}>", "@{$data['user_name']}", $text);
+    global $slack_users_map;
+    if ($slack_users_map !== null) {
+      foreach($slack_users_map as $uid => $uname){
+        $text = str_replace("<@{$uid}>", "@{$uname}", $text);
+      }
     }
     return $text;
   }
   function messages_list() {
-    global $channel;
+    global $channel, $slack_users_map;
+    if ($slack_users_map === null) {
+      $slack_users_map = array();
+      $query = sql_select("SlackUsers", "distinct user_id,user_name");
+      $users = $query->fetchAll(PDO::FETCH_ASSOC);
+      foreach($users as $data){
+        $slack_users_map[$data['user_id']] = $data['user_name'];
+      }
+    }
     echo "<div class=\"message-list\">";
     $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "thread_ts DESC, date ASC, time ASC, id ASC");
     $current_thread_ts = "";
