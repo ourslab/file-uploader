@@ -1,5 +1,6 @@
 <?php
-  $user_ip = $_SERVER['REMOTE_ADDR'];
+  #$user_ip = $_SERVER['REMOTE_ADDR'];
+  $user_ip = $_SERVER['HTTP_X_REAL_IP'];
   $query = sql_select("IP", "*", "addr='{$user_ip}'");
   if ($query->rowCount() == 0) {
     $user_id = -1;
