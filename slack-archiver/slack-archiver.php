@@ -42,13 +42,13 @@
       $user = $data['user'];
       $text = safe_str(replace_user_id($data['text']));
       // Convert Slack format links <URL|Text> to HTML anchor tags
-      $text = preg_replace('/&lt;(https?:\/\/[^|]+)\|(.+?)&gt;/', '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>', $text);
+      $text = preg_replace('/&lt;(https?:\/\/(?:(?!&lt;)(?!&gt;)[^|])+)\|((?:(?!&gt;).)+?)&gt;/', '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>', $text);
       // Convert Slack format links <URL> to HTML anchor tags
-      $text = preg_replace('/&lt;(https?:\/\/[^|\s]+?)&gt;/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text);
+      $text = preg_replace('/&lt;(https?:\/\/(?:(?!&lt;)(?!&gt;)[^|\s])+)&gt;/', '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>', $text);
       // Convert Slack format email links <mailto:email|Text> to HTML anchor tags
-      $text = preg_replace('/&lt;(mailto:[^|]+)\|(.+?)&gt;/', '<a href="$1">$2</a>', $text);
+      $text = preg_replace('/&lt;(mailto:(?:(?!&lt;)(?!&gt;)[^|])+)\|((?:(?!&gt;).)+?)&gt;/', '<a href="$1">$2</a>', $text);
       // Convert Slack format email links <mailto:email> to HTML anchor tags
-      $text = preg_replace('/&lt;(mailto:[^|\s]+?)&gt;/', '<a href="$1">$1</a>', $text);
+      $text = preg_replace('/&lt;(mailto:(?:(?!&lt;)(?!&gt;)[^|\s])+)&gt;/', '<a href="$1">$1</a>', $text);
       $file_url = "/slack-archiver/".$data['data'];
       $file_name = safe_str($data['name']);
       $time_stamp = "{$data['date']}_{$data['time']}";
