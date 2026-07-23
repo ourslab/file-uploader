@@ -34,7 +34,7 @@
       }
     }
     echo "<div class=\"message-list\">";
-    $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "thread_ts DESC, date ASC, time ASC, id ASC");
+    $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "date DESC, time DESC");
     $current_thread_ts = "";
     $parent_date_time = "";
     while($data = sql_data($query)){
@@ -64,7 +64,7 @@
       } else if ($parent_date_time !== $data['date'] . $data['time']) {
         $is_reply = true;
       }
-      $li_class = $is_reply ? "message-item reply" : "message-item parent";
+      $li_class = ($is_reply)? "message-item reply" : "message-item parent";
 
       if (!empty($text) || !empty($file_name)) {
         $avatar_letter = mb_substr($user, 0, 1, "UTF-8");
@@ -88,9 +88,9 @@
           $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
           $image_extensions = array('jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg');
           if (in_array($ext, $image_extensions)) {
-            echo "<a class=\"message-file message-file-image\" href=\"{$file_url}\" data-preview-url=\"{$file_url}\">📎 {$file_name}</a>";
+            echo "<a class=\"message-file message-file-image\" href=\"{$file_url}\" data-preview-url=\"{$file_url}\" target=\"_blank\">📎 {$file_name}</a>";
           } else {
-            echo "<a class=\"message-file\" href=\"{$file_url}\">📎 {$file_name}</a>";
+            echo "<a class=\"message-file\" href=\"{$file_url}\" target=\"_blank\">📎 {$file_name}</a>";
           }
         }
         echo "    </div>";
