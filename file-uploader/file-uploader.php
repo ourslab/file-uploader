@@ -94,6 +94,8 @@
       $js_onload .= "change_user_name();";
     } else if ($user_birth_y == 0 || $user_birth_m == 0 || $user_birth_d == 0) {
       $js_onload .= "birthday_edit(\"{$user_name}\");";
+    } else if ($user_birth_favorite == "") {
+      //$js_onload .= "birthday_edit(\"{$user_name}\");";
     }
   }
   if (is_removable_file($file_tag)) {

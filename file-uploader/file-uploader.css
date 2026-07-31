@@ -171,10 +171,22 @@ p {
 .birthday-list-day {
   width: 2em;
 }
+.birthday-list-favorite {
+  display: flex;
+  width: 3em;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.birthday-list-favorite::-webkit-scrollbar {
+  display: none;
+}
 .birthday-list-command {
-  width: 5em;
+  width: 12em;
 }
 .birthday-list-command > a {
+  width: 7em;
   color: rgb(255 200 255);
   text-shadow: 1px  1px 1px rgb(0 0 100),
               -1px  1px 1px rgb(0 0 100),

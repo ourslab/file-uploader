@@ -341,8 +341,8 @@ function print_img(img_url) {
     original_image.src = img_url;
   }
 }
-function birthday_edit(name, date, remove=false) {
-  let birthday_name, birthday_date;
+function birthday_edit(name, date, favorite, remove=false, editdate=true) {
+  let birthday_name, birthday_date, birthday_favorite;
   if (name) {
     birthday_name = name;
   } else {
@@ -350,16 +350,27 @@ function birthday_edit(name, date, remove=false) {
   }
   if (birthday_name) {
     if (remove) {
-      let proceed = confirm(`Are you sure wan't to delete ${birthday_name}'s birthday?`);
+      let proceed = confirm(`本当に【${birthday_name}】さんの誕生日データを削除しますか？`);
       if (!proceed) {
         location.href = location.href;
         return;
       }
       birthday_date = "0000-00-00";
-    } else if (date) {
-      birthday_date = prompt("Birthday (Current: "+date+")");
     } else {
-      birthday_date = prompt("Birthday (yyyy-mm-dd)");
+      if (editdate) {
+        if (date) {
+          birthday_date = prompt(`誕生日を入力 (現在: ${date})`);
+        } else {
+          birthday_date = prompt("誕生日を入力 (形式: yyyy-mm-dd)");
+        }
+      } else {
+        birthday_date = date;
+      }
+    }
+    if (favorite) {
+      birthday_favorite = prompt(`誕生日に欲しいものを入力 (現在: ${favorite})`);
+    } else {
+      birthday_favorite = prompt(`誕生日に欲しいものを入力`);
     }
     if (birthday_date) {
       birthday_date = birthday_date.split("-");
@@ -369,6 +380,7 @@ function birthday_edit(name, date, remove=false) {
         user_form.appendChild(create_form_input("birthday-year", birthday_date[0]));
         user_form.appendChild(create_form_input("birthday-month", birthday_date[1]));
         user_form.appendChild(create_form_input("birthday-day", birthday_date[2]));
+        user_form.appendChild(create_form_input("birthday-favorite", birthday_favorite));
         return user_form.submit();
       }
     }

@@ -5,6 +5,7 @@
       $birth_y = intval($_POST['birthday-year']);
       $birth_m = intval($_POST['birthday-month']);
       $birth_d = intval($_POST['birthday-day']);
+      $birth_favorite = safe_str($_POST['birthday-favorite']);
       $birth_delete = false;
       if ($birth_y == 0 && $birth_m == 0 && $birth_d == 0) {
         $birth_delete = true;
@@ -23,14 +24,15 @@
           $user_birth_y = $birth_y;
           $user_birth_m = $birth_m;
           $user_birth_d = $birth_d;
+          $user_birth_favorite = $birth_favorite;
         }
         $query = sql_select("Birthday", "*", "user_name='{$birth_name}'");
         if ($query->rowCount() == 0) {
-          sql_insert("Birthday", "id,user_name,year,month,day", "0,'{$birth_name}',{$birth_y},{$birth_m},{$birth_d}");
+          sql_insert("Birthday", "id,user_name,year,month,day,favorite", "0,'{$birth_name}',{$birth_y},{$birth_m},{$birth_d},{$birth_favorite}");
           global $msg;
           array_push($msg, "{$birth_name}'s birthday is added!");
         } else {
-          sql_update("Birthday", "year={$birth_y},month={$birth_m},day={$birth_d}", "user_name='{$birth_name}'");
+          sql_update("Birthday", "year={$birth_y},month={$birth_m},day={$birth_d},favorite='{$birth_favorite}'", "user_name='{$birth_name}'");
           global $msg;
           array_push($msg, "{$birth_name}'s birthday is updated!");
         }
@@ -66,16 +68,18 @@
       array_push($msg, "{$next_birthdays[0][0]}'s birthday, {$next_birthdays[0][1]}, is coming up.");
     }
   }
-  function show_birthday_list_row($id="", $name="", $year=null, $month=null, $day=null) {
+  function show_birthday_list_row($id="", $name="", $year="", $month="", $day="", $favorite="") {
     echo "<ul class=\"birthday-list\">";
     echo "<li class=\"birthday-list-id\">{$id}</li>";
     echo "<li class=\"birthday-list-name\">{$name}</li>";
     echo "<li class=\"birthday-list-year\">{$year}</li>";
     echo "<li class=\"birthday-list-month\">{$month}</li>";
     echo "<li class=\"birthday-list-day\">{$day}</li>";
+    echo "<li class=\"birthday-list-favorite\">{$favorite}</li>";
     echo "<li class=\"birthday-list-command\">";
-    if ($year !== null && $month !== null && $day !== null) {
-      echo "<a onclick=\"birthday_edit('{$name}','{$year}-{$month}-{$day}')\">Edit</a>";
+    if ($year != "" && $month != "" && $day != "") {
+      echo "<a onclick=\"birthday_edit('{$name}','{$year}-{$month}-{$day}','$favorite')\">【Edit】</a>";
+      echo "<a onclick=\"birthday_edit('{$name}','{$year}-{$month}-{$day}','$favorite',remove=false,editdate=false)\"> 【EditFav.】</a>";
     } else {
       echo "<a onclick=\"birthday_edit('','')\">Add</a>";
     }
@@ -91,7 +95,7 @@
     echo "<br>";
     $query = sql_select("Birthday", "*", "", "month, day");
     while ($data = sql_data($query)) {
-      show_birthday_list_row($data['id'], $data['user_name'], $data['year'], $data['month'], $data['day']);
+      show_birthday_list_row($data['id'], $data['user_name'], $data['year'], $data['month'], $data['day'], $data['favorite']);
     }
     show_birthday_list_row();
   }
