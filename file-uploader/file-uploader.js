@@ -368,9 +368,9 @@ function birthday_edit(name, date, favorite, remove=false, editdate=true) {
       }
     }
     if (favorite) {
-      birthday_favorite = prompt(`誕生日に欲しいものを入力 (現在: ${favorite})`);
+      birthday_favorite = prompt(`すきなものを入力 (現在: ${favorite})`);
     } else {
-      birthday_favorite = prompt(`誕生日に欲しいものを入力`);
+      birthday_favorite = prompt(`すきなものを入力`);
     }
     if (birthday_date) {
       birthday_date = birthday_date.split("-");
