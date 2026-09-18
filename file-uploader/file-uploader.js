@@ -375,6 +375,12 @@ function birthday_edit(name, date, favorite, remove=false, editdate=true) {
     if (birthday_date) {
       birthday_date = birthday_date.split("-");
       if(birthday_date.length == 3){
+        birthday_date[0] = parseInt(birthday_date[0]);
+        birthday_date[1] = parseInt(birthday_date[1]);
+        birthday_date[2] = parseInt(birthday_date[2]);
+        if (!editdate && birthday_date[0] == 0 && birthday_date[1] == 0 && birthday_date[2] == 0) {
+          birthday_edit(name, date, favorite, remove=false, editdate=true);
+        }
         document.body.appendChild(user_form = create_form());
         user_form.appendChild(create_form_input("birthday-name", birthday_name));
         user_form.appendChild(create_form_input("birthday-year", birthday_date[0]));
