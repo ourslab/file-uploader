@@ -34,10 +34,36 @@
       }
     }
     echo "<div class=\"message-list\">";
-    $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "date DESC, time DESC");
-    $current_thread_ts = "";
-    $parent_date_time = "";
-    while($data = sql_data($query)){
+    $query = sql_select("SlackArchivedData", "*", "channel='$channel'", "date ASC, time ASC, id ASC");
+    $messages = $query->fetchAll(PDO::FETCH_ASSOC);
+    // Group the messages into threads so that a parent and its replies stay together
+    $threads = array();
+    foreach($messages as $message){
+      if (!empty($message['thread_ts'])) {
+        $thread_key = "thread_{$message['thread_ts']}";
+      } else if (!empty($message['ts'])) {
+        $thread_key = "thread_{$message['ts']}";
+      } else {
+        $thread_key = "single_{$message['id']}";
+      }
+      $message['thread_key'] = $thread_key;
+      $threads[$thread_key][] = $message;
+    }
+    // Sort the threads by the timestamp of their first message (newest thread first)
+    usort($threads, function($a, $b){
+      $key_a = "{$a[0]['date']} {$a[0]['time']} ".sprintf("%020d", $a[0]['id']);
+      $key_b = "{$b[0]['date']} {$b[0]['time']} ".sprintf("%020d", $b[0]['id']);
+      return strcmp($key_b, $key_a);
+    });
+    // Flatten back into a single list: each thread keeps its own chronological order
+    $messages = array();
+    foreach($threads as $thread){
+      foreach($thread as $message){
+        $messages[] = $message;
+      }
+    }
+    $rendered_thread_key = "";
+    foreach($messages as $data){
       $body = "";
       $user = $data['user'];
       $text = safe_str(replace_user_id($data['text']));
@@ -54,19 +80,12 @@
       $time_stamp = "{$data['date']}_{$data['time']}";
       $display_time = substr($data['time'], 0, 5);
       
-      $is_reply = false;
-      if (empty($data['thread_ts'])) {
-        $current_thread_ts = "";
-        $parent_date_time = "";
-      } else if ($current_thread_ts !== $data['thread_ts']) {
-        $current_thread_ts = $data['thread_ts'];
-        $parent_date_time = $data['date'] . $data['time'];
-      } else if ($parent_date_time !== $data['date'] . $data['time']) {
-        $is_reply = true;
-      }
-      $li_class = ($is_reply)? "message-item reply" : "message-item parent";
-
       if (!empty($text) || !empty($file_name)) {
+        // The first displayed message of a thread is the parent, the rest are replies
+        $is_reply = ($rendered_thread_key === $data['thread_key']);
+        $rendered_thread_key = $data['thread_key'];
+        $li_class = ($is_reply)? "message-item reply" : "message-item parent";
+
         $avatar_letter = mb_substr($user, 0, 1, "UTF-8");
         $hash = md5($user);
         $color = substr($hash, 0, 6);
