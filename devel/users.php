@@ -40,7 +40,7 @@
       $user_birth_d = intval($data['day']);
       $user_birth_favorite = safe_str($data['favorite']);
     } else {
-      sql_insert("Birthday", "id,user_name,year,month,day", "0,'{$user_name}',0,0,0");
+      sql_insert("Birthday", "id,user_name,year,month,day,favorite", "0,'{$user_name}',0,0,0,''");
       $user_birth_y = 0;
       $user_birth_m = 0;
       $user_birth_d = 0;

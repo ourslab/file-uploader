@@ -79,14 +79,14 @@
     echo "<li class=\"birthday-list-command\">";
     if ($year != "" && $month != "" && $day != "") {
       echo "<a onclick=\"birthday_edit('{$name}','{$year}-{$month}-{$day}','$favorite')\">【Edit】</a>";
-      echo "<a onclick=\"birthday_edit('{$name}','{$year}-{$month}-{$day}','$favorite',remove=false,editdate=false)\"> 【EditFav.】</a>";
+      echo "<a onclick=\"birthday_edit('{$name}','{$year}-{$month}-{$day}','$favorite',false,false)\"> 【EditFav.】</a>";
     } else {
-      echo "<a onclick=\"birthday_edit('','')\">Add</a>";
+      echo "<a onclick=\"birthday_edit('','','')\">Add</a>";
     }
     echo "</li>";
     echo "<li class=\"birthday-list-remove\">";
     if ($year !== null && $month !== null && $day !== null) {
-      echo "<a onclick=\"birthday_edit('{$name}','',true)\">Remove</a>";
+      echo "<a onclick=\"birthday_edit('{$name}','','',true)\">Remove</a>";
     }
     echo "</li>";
     echo "</ul>";
